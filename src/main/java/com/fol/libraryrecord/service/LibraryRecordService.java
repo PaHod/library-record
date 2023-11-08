@@ -3,12 +3,11 @@ package com.fol.libraryrecord.service;
 import com.fol.libraryrecord.exception.LibraryRecordNotFoundException;
 import com.fol.libraryrecord.exception.NoUserPermissionException;
 import com.fol.libraryrecord.mapper.LibraryRecordMapper;
-import com.fol.libraryrecord.model.LibraryRecord;
 import com.fol.libraryrecord.microservice.IUserMicroservice;
+import com.fol.libraryrecord.model.LibraryRecord;
 import com.fol.libraryrecord.repository.LibraryRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -30,7 +29,7 @@ public class LibraryRecordService implements ILibraryRecordService {
     public LibraryRecord createLibraryRecord(LibraryRecord libraryRecord) {
         Long userId = libraryRecord.getUserId();
         boolean userHavePermission = userService.doesUserHavePermission(userId);
-        if (!userHavePermission){
+        if (!userHavePermission) {
             throw new NoUserPermissionException(userId);
         }
 
@@ -47,7 +46,6 @@ public class LibraryRecordService implements ILibraryRecordService {
         return libraryRecordRepository.findAll();
     }
 
-    @Transactional
     @Override
     public LibraryRecord updateLibraryRecord(long id, LibraryRecord libraryRecord) {
         LibraryRecord existingLibraryRecord = libraryRecordRepository.findById(id).orElseThrow(() -> new LibraryRecordNotFoundException(id));

@@ -1,12 +1,10 @@
 package com.fol.libraryrecord.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 @Builder
 @AllArgsConstructor
