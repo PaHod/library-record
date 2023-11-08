@@ -1,9 +1,9 @@
-package com.fol.libraryrecord.remoteservice;
+package com.fol.libraryrecord.microservice;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class StubUserRemoteService implements IUserRemoteService {
+public class StubUserMicroservice implements IUserMicroservice {
     @Override
     public boolean doesUserHavePermission(Long userId) {
         return true;

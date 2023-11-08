@@ -4,7 +4,7 @@ import com.fol.libraryrecord.exception.LibraryRecordNotFoundException;
 import com.fol.libraryrecord.exception.NoUserPermissionException;
 import com.fol.libraryrecord.mapper.LibraryRecordMapper;
 import com.fol.libraryrecord.model.LibraryRecord;
-import com.fol.libraryrecord.remoteservice.IUserRemoteService;
+import com.fol.libraryrecord.microservice.IUserMicroservice;
 import com.fol.libraryrecord.repository.LibraryRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +17,10 @@ public class LibraryRecordService implements ILibraryRecordService {
 
     private final LibraryRecordRepository libraryRecordRepository;
     private final LibraryRecordMapper libraryRecordMapper;
-    private final IUserRemoteService userService;
+    private final IUserMicroservice userService;
 
     @Autowired
-    public LibraryRecordService(LibraryRecordRepository libraryRecordRepository, LibraryRecordMapper libraryRecordMapper, IUserRemoteService userService) {
+    public LibraryRecordService(LibraryRecordRepository libraryRecordRepository, LibraryRecordMapper libraryRecordMapper, IUserMicroservice userService) {
         this.libraryRecordRepository = libraryRecordRepository;
         this.libraryRecordMapper = libraryRecordMapper;
         this.userService = userService;
