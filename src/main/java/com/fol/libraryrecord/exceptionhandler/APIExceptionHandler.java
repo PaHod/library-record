@@ -1,4 +1,4 @@
-package com.fol.libraryrecord.controller;
+package com.fol.libraryrecord.exceptionhandler;
 
 import com.fol.libraryrecord.exception.LibraryRecordNotFoundException;
 import org.springframework.http.HttpStatus;

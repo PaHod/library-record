@@ -1,19 +1,18 @@
 package com.fol.libraryrecord.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
 import java.sql.Timestamp;
 
+@Builder
 @Getter
 @Setter
 @Schema(description = "It represents a record of books taken from the library and returned")
-public class LibraryRecordDTO {
-
-    @Schema(description = "The unique identifier for the library record.")
-    private Long id;
+public class RecordRequest {
 
     @Schema(description = "ID of user that took/returned the book.")
     private Long userId;

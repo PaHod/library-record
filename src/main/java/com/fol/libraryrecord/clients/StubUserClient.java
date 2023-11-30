@@ -1,9 +1,10 @@
-package com.fol.libraryrecord.microservice;
+package com.fol.libraryrecord.clients;
 
 import org.springframework.stereotype.Service;
 
 @Service
-public class StubUserMicroservice implements IUserMicroservice {
+public class StubUserClient implements IUserClient {
+
     @Override
     public boolean doesUserHavePermission(Long userId) {
         return true;

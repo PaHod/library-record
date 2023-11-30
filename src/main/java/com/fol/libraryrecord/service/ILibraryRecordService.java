@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface ILibraryRecordService {
 
-    LibraryRecord createLibraryRecord(LibraryRecord libraryRecord);
+    LibraryRecord createRecord(LibraryRecord libraryRecord);
 
-    LibraryRecord getLibraryRecordById(long id);
+    LibraryRecord getRecordById(long id);
 
-    List<LibraryRecord> getAllLibraryRecords();
+    List<LibraryRecord> getAllRecords();
 
-    LibraryRecord updateLibraryRecord(long id, LibraryRecord libraryRecord);
+    LibraryRecord updateRecord(long id, LibraryRecord libraryRecord);
 
-    void deleteLibraryRecord(long id);
+    void deleteRecord(long id);
 }

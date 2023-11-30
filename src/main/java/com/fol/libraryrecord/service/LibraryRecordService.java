@@ -1,62 +1,69 @@
 package com.fol.libraryrecord.service;
 
+import com.fol.libraryrecord.clients.IUserClient;
 import com.fol.libraryrecord.exception.LibraryRecordNotFoundException;
 import com.fol.libraryrecord.exception.NoUserPermissionException;
 import com.fol.libraryrecord.mapper.LibraryRecordMapper;
-import com.fol.libraryrecord.microservice.IUserMicroservice;
 import com.fol.libraryrecord.model.LibraryRecord;
 import com.fol.libraryrecord.repository.LibraryRecordRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class LibraryRecordService implements ILibraryRecordService {
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     private final LibraryRecordRepository libraryRecordRepository;
     private final LibraryRecordMapper libraryRecordMapper;
-    private final IUserMicroservice userService;
-
-    @Autowired
-    public LibraryRecordService(LibraryRecordRepository libraryRecordRepository, LibraryRecordMapper libraryRecordMapper, IUserMicroservice userService) {
-        this.libraryRecordRepository = libraryRecordRepository;
-        this.libraryRecordMapper = libraryRecordMapper;
-        this.userService = userService;
-    }
+    private final IUserClient userService;
 
     @Override
-    public LibraryRecord createLibraryRecord(LibraryRecord libraryRecord) {
+    public LibraryRecord createRecord(LibraryRecord libraryRecord) {
+        logger.debug("");
         Long userId = libraryRecord.getUserId();
         boolean userHavePermission = userService.doesUserHavePermission(userId);
         if (!userHavePermission) {
+            logger.error("User doesn't have permission to create record");
             throw new NoUserPermissionException(userId);
         }
-
         return libraryRecordRepository.save(libraryRecord);
     }
 
     @Override
-    public LibraryRecord getLibraryRecordById(long id) {
-        return libraryRecordRepository.findById(id).orElseThrow(() -> new LibraryRecordNotFoundException(id));
+    public LibraryRecord getRecordById(long id) {
+        return libraryRecordRepository.findById(id).orElseThrow(() -> {
+            logger.error("Could not find record for provided id: " + id);
+            return new LibraryRecordNotFoundException(id);
+        });
     }
 
     @Override
-    public List<LibraryRecord> getAllLibraryRecords() {
+    public List<LibraryRecord> getAllRecords() {
         return libraryRecordRepository.findAll();
     }
 
     @Override
-    public LibraryRecord updateLibraryRecord(long id, LibraryRecord libraryRecord) {
-        LibraryRecord existingLibraryRecord = libraryRecordRepository.findById(id).orElseThrow(() -> new LibraryRecordNotFoundException(id));
+    public LibraryRecord updateRecord(long id, LibraryRecord libraryRecord) {
+        LibraryRecord existingRecord = libraryRecordRepository.findById(id).orElseThrow(() -> {
+            logger.error("Could not update record as there is no record for provided id: " + id);
+            return new LibraryRecordNotFoundException(id);
+        });
 
-        libraryRecordMapper.updateFieldsFromDTO(libraryRecord, existingLibraryRecord);
-        return libraryRecordRepository.save(existingLibraryRecord);
+        LibraryRecord updatedRecord = libraryRecordMapper.updateFieldsFromDTO(libraryRecord, existingRecord);
+        return libraryRecordRepository.save(updatedRecord);
     }
 
     @Override
-    public void deleteLibraryRecord(long id) {
-        LibraryRecord existingLibraryRecord = libraryRecordRepository.findById(id).orElseThrow(() -> new LibraryRecordNotFoundException(id));
+    public void deleteRecord(long id) {
+        LibraryRecord existingLibraryRecord = libraryRecordRepository.findById(id).orElseThrow(() -> {
+            logger.error("Could not delete record as there is no record for provided id: " + id);
+            return new LibraryRecordNotFoundException(id);
+        });
         libraryRecordRepository.delete(existingLibraryRecord);
     }
 }
